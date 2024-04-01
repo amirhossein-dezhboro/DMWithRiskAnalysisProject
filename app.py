@@ -192,7 +192,18 @@ def main():
                 st.error('The sum of all values should be 1. Please adjust the sliders.')
 
     with tab3:
-        df['Total_Utility'] = sum([df[attr] * weight for attr, weight in weights.items()])
+        try:
+            df['Total_Utility'] = sum([df[attr] * weight for attr, weight in weights.items()])
+        except:
+            weights = {
+            'Battery_utility': 0.2,
+            'Acceleration_utility': 0.2,
+            'Efficiency_utility': 0.2,
+            'Range_utility': 0.2,
+            'Price_utility': 0.2
+            }
+            df['Total_Utility'] = sum([df[attr] * weight for attr, weight in weights.items()])
+
 
         # Step 6: Rank vehicles based on total utility score
         df_sorted = df.sort_values(by='Total_Utility', ascending=False)
