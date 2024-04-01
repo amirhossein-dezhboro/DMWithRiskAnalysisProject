@@ -7,7 +7,7 @@ import plotly.graph_objs as go
 
 
 def main():
-    df = pd.read_csv('/Users/fatememaleki/finaldf.csv')
+    df = pd.read_csv('https://raw.githubusercontent.com/amirhossein-dezhboro/DMWithRiskAnalysisProject/main/finaldf.csv')
     df = df.rename(columns={"acceleration..0.100.": "Acceleration"})
     df = df.rename(columns={"Price.DE.": "Price"})
     df = df.rename(columns={"Efficiency_Wh_km": "Efficiency"})
