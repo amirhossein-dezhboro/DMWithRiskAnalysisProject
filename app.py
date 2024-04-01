@@ -152,7 +152,7 @@ def main():
                                 marker=dict(size=10, color='red'),  # Customizes the marker appearance
                                 line=dict(dash='dash'),  # Makes the line dashed
                                 name='Line'))
-        fig5.update_layout(title='Efficiency Utility',
+        fig5.update_layout(title='Price Utility',
                         xaxis_title='Price',
                         yaxis_title='Utility',
                         showlegend=True)
