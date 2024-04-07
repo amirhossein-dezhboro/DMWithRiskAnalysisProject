@@ -192,25 +192,65 @@ def main():
                 st.error('The sum of all values should be 1. Please adjust the sliders.')
 
     with tab3:
-        try:
-            df['Total_Utility'] = sum([df[attr] * weight for attr, weight in weights.items()])
-        except:
-            weights = {
-            'Battery_utility': 0.2,
-            'Acceleration_utility': 0.2,
-            'Efficiency_utility': 0.2,
-            'Range_utility': 0.2,
-            'Price_utility': 0.2
-            }
-            df['Total_Utility'] = sum([df[attr] * weight for attr, weight in weights.items()])
-
+        df['Total_Utility'] = sum([df[attr] * weight for attr, weight in weights.items()])
 
         # Step 6: Rank vehicles based on total utility score
         df_sorted = df.sort_values(by='Total_Utility', ascending=False)
-
+        plotdf = df_sorted[:10][["Name", "Battery_utility", 'Acceleration_utility', 'Efficiency_utility', 'Range_utility', 'Price_utility']]
         # Display the top vehicles based on utility score
-        st.write('The top vehicles based on utility score')
-        st.write(df_sorted[['Name', 'Total_Utility']].head(10))
+        col1, col2 = st.columns(2)
+        with col1:
+            st.write('The top vehicles based on utility score')
+            st.write(df_sorted[['Name', 'Total_Utility']].head(10))
+
+        # Use the second column to display the Plotly chart
+        with col2:
+            for column, weight in weights.items():
+                plotdf[column] = plotdf[column].mul(weight)
+            import plotly.express as px
+            import numpy as np
+            # Assuming plotdf is your DataFrame
+            fig = px.bar(plotdf, x='Name', y=["Battery_utility", "Acceleration_utility", "Efficiency_utility", "Range_utility", "Price_utility"],
+                        title="Utilities by Name", labels={"value": "Utility Value", "variable": "Utilities"},
+                        color_discrete_sequence=px.colors.qualitative.Pastel1,  # Use a nice color scheme
+                        barmode='stack')  # Ensure bars are stacked
+
+            fig.update_layout(xaxis={'categoryorder':'total descending'},  # Optional: sort bars
+                            xaxis_title="Name",
+                            yaxis_title="Utility Value",
+                            legend_title="Utilities",
+                            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
+
+            st.plotly_chart(fig)
+            
+            plotdf.set_index('Name', inplace=True)
+            columns = ["Battery_utility", "Acceleration_utility", "Efficiency_utility", "Range_utility", "Price_utility"]
+            num_simulations = 100
+            for column in columns:
+                uncertain_values = []  # to store simulation results for each record
+                for index, row in plotdf.iterrows():
+                    mean = row[column]
+                    std_dev = mean * np.random.uniform(0.05, 0.1)  # 5-10% of the mean as std deviation                    
+                    simulations = np.random.normal(mean, std_dev, num_simulations)
+                    uncertain_values.append(simulations)
+                plotdf["Uncertain_" + column] = uncertain_values
+            
+            import plotly.express as px
+            import numpy as np
+            import pandas as pd
+
+            uncertain_columns = [col for col in plotdf.columns if 'Uncertain_' in col]
+            plotdf['total_uncertain_utility'] = plotdf.apply(lambda row: np.sum([row[col] for col in uncertain_columns], axis=0), axis=1)
+
+            data = []
+            for index, row in plotdf.iterrows():
+                for value in row['total_uncertain_utility']:
+                    data.append({'Name': index, 'Total Uncertain Utility': value})
+            df_long_format = pd.DataFrame(data)
+            # Using Plotly Express to create the box plot
+            figbox = px.box(df_long_format, x='Name', y='Total Uncertain Utility', title='Box Plot of Total Uncertain Utilities')
+            # Show the plot
+            st.plotly_chart(figbox)
 
     with tab4:
         st.write('Team members')
