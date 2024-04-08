@@ -364,7 +364,7 @@ def main():
             import numpy as np
             # Assuming plotdf is your DataFrame
             fig = px.bar(plotdf, x='Name', y=["Battery_utility", "Acceleration_utility", "Efficiency_utility", "Range_utility", "Price_utility"],
-                        title="Utilities by Name", labels={"value": "Utility Value", "variable": "Utilities"},
+                        title="Decomposed total Utilities", labels={"value": "Utility Value", "variable": "Utilities"},
                         color_discrete_sequence=px.colors.qualitative.Pastel1,  # Use a nice color scheme
                         barmode='stack')  # Ensure bars are stacked
 
