@@ -80,7 +80,7 @@ def main():
                     start_point['y'] + 0.50 * 1.4 * (end_point['y'] - start_point['y']),
                     start_point['y'] + 0.75 * 1.2 * (end_point['y'] - start_point['y']),
                     end_point['y']])
-        degree = 3
+        degree = 4
         coeffs = np.polyfit(x_values, y_values, degree)
         poly_func = np.poly1d(coeffs)
         x_dense = np.linspace(x_values.min(), x_values.max(), 50)
@@ -132,7 +132,7 @@ def main():
                     start_point['y'] + 0.50 * 1.4 * (end_point['y'] - start_point['y']),
                     start_point['y'] + 0.75 * 1.2 * (end_point['y'] - start_point['y']),
                     end_point['y']])
-        degree = 3
+        degree = 4
         coeffs = np.polyfit(x_values, y_values, degree)
         poly_func = np.poly1d(coeffs)
         x_dense = np.linspace(x_values.min(), x_values.max(), 50)
@@ -183,7 +183,7 @@ def main():
                     start_point['y'] + 0.50 * 1.2 * (end_point['y'] - start_point['y']),
                     start_point['y'] + 0.75 * 1.15 * (end_point['y'] - start_point['y']),
                     end_point['y']])
-        degree = 3
+        degree = 4
         coeffs = np.polyfit(x_values, y_values, degree)
         poly_func = np.poly1d(coeffs)
         x_dense = np.linspace(x_values.min(), x_values.max(), 50)
@@ -233,7 +233,7 @@ def main():
                     start_point['y'] + 0.50 * 0.8 * (end_point['y'] - start_point['y']),
                     start_point['y'] + 0.75 * 1 * (end_point['y'] - start_point['y']),
                     end_point['y']])
-        degree = 3
+        degree = 4
         coeffs = np.polyfit(x_values, y_values, degree)
         poly_func = np.poly1d(coeffs)
         x_dense = np.linspace(x_values.min(), x_values.max(), 50)
@@ -283,7 +283,7 @@ def main():
                     start_point['y'] + 0.50 * 0.8 * (end_point['y'] - start_point['y']),
                     start_point['y'] + 0.75 * 1 * (end_point['y'] - start_point['y']),
                     end_point['y']])
-        degree = 3
+        degree = 4
         coeffs = np.polyfit(x_values, y_values, degree)
         poly_func = np.poly1d(coeffs)
         x_dense = np.linspace(x_values.min(), x_values.max(), 50)
