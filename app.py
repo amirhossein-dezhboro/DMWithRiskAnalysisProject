@@ -383,7 +383,16 @@ def main():
                 uncertain_values = []  # to store simulation results for each record
                 for index, row in plotdf.iterrows():
                     mean = row[column]
-                    std_dev = mean * np.random.uniform(0.05, 0.1)  # 5-10% of the mean as std deviation                    
+                    if column=="Battery_utility":
+                        std_dev = mean * 0.10  # 10% of the mean as std deviation
+                    if column=="Acceleration_utility":
+                        std_dev = mean * 0.02  # 2% of the mean as std deviation
+                    if column=="Efficiency_utility":
+                        std_dev = mean * 0.10  # 10% of the mean as std deviation
+                    if column=="Range_utility":
+                        std_dev = mean * 0.08  # 8% of the mean as std deviation
+                    if column=="Price_utility":
+                        std_dev = mean * 0.03  # 3% of the mean as std deviation
                     simulations = np.random.normal(mean, std_dev, num_simulations)
                     uncertain_values.append(simulations)
                 plotdf["Uncertain_" + column] = uncertain_values
